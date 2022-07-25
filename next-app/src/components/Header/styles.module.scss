@@ -1,0 +1,59 @@
+.headerContainer {
+    background-color: #000;
+    height: 60px;
+    padding: 0 10px;
+}
+
+.headerContent {
+    max-width: 1080px;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    nav {
+        display: flex;
+
+        a {
+            color: #f1f5fb;
+            display: inline-block;
+            transition: all .3s ease;
+            position: relative;
+            padding: 10px 0;
+
+            &+a {
+                margin-left: 20px;
+            }
+
+            &:hover {
+                filter: brightness(.8);
+            }
+
+            svg {
+                color: #f1f5fb;
+                width: 24px;
+                height: 24px;
+                display: none;
+            }
+
+            @media (max-width: 400px) {
+
+                span {
+                    display: none;
+                }
+
+                svg {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    img {
+        max-width: 50px;
+        cursor: pointer;
+
+    }
+
+}

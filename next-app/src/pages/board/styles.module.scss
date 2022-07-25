@@ -1,0 +1,242 @@
+%transform {
+    top: -15px;
+    transform: translateY(-50%);
+    left: 0;
+    font-size: 12px;
+}
+
+%defaultActionButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    transition: all .3s ease;
+
+    &:hover {
+        opacity: .7;
+    }
+}
+
+.container {
+    width: 80%;
+    max-width: 600px;
+    background-color: #000;
+    margin: 0 auto;
+    padding: 20px;
+    padding-top: 40px;
+    border-radius: 6px;
+    margin-top: 60px;
+
+    form {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        button {
+            background-color: #ffb800;
+            min-width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            display: grid;
+            place-items: center;
+            transition: all .3s ease;
+            border: none;
+
+            svg {
+                color: #000;
+                font-size: 20px;
+            }
+
+            &:hover {
+                filter: brightness(1.1);
+            }
+        }
+
+    }
+
+    h1 {
+        color: #FFF;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    .taskList {
+        background-color: white;
+        width: 100%;
+        padding: 10px;
+        background-color: #111;
+        border: 1px solid #222;
+        border-radius: 6px;
+
+        p {
+            color: #FFF;
+            cursor: pointer;
+            line-height: 150%;
+        }
+
+        .actions {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: row;
+            margin-top: 10px;
+
+            div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                time {
+                    color: #ffb800;
+                    margin-left: 10px;
+                    margin-right: 20px;
+                }
+            }
+
+            .editarBtn {
+                @extend %defaultActionButton;
+
+                svg {
+                    color: #FFF;
+                    font-size: 16px;
+                }
+
+                span {
+                    margin-left: 10px;
+                    color: #FFF;
+                }
+            }
+
+            .excluirBtn {
+                @extend %defaultActionButton;
+
+                svg {
+                    color: #d12f2f;
+                    font-size: 16px;
+                }
+
+                span {
+                    color: #d12f2f;
+                    margin-left: 10px;
+                }
+            }
+
+            @media (max-width: 600px) {
+                flex-direction: column;
+
+                div {
+                    justify-content: space-between;
+                    width: 100%;
+                    flex-direction: column;
+
+                    time {
+                        padding: 0;
+                        margin: 0;
+                    }
+                }
+
+                .editarBtn,
+                .excluirBtn {
+                    margin-top: 10px;
+                }
+
+            }
+
+        }
+    }
+
+}
+
+.inputContainer {
+    width: 100%;
+    position: relative;
+    margin-right: 10px;
+
+    input {
+        width: 100%;
+        height: 40px;
+        border-radius: 6px;
+        border: none;
+        padding: 0 10px;
+        transition: all .3s ease;
+
+        &:focus {
+            outline: 3px solid #ffb800;
+        }
+
+        &:not(:placeholder-shown)~label {
+            @extend %transform;
+            color: #FFF;
+        }
+
+        &:focus~label {
+            @extend %transform;
+            color: #ffb800;
+        }
+
+    }
+
+    label {
+        position: absolute;
+        color: #999;
+        white-space: nowrap;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        user-select: none;
+        cursor: text;
+        transition: all .3s ease;
+
+        @media (max-width: 400px) {
+            font-size: 12px;
+        }
+    }
+}
+
+.vipContainer {
+    position: relative;
+    width: 80%;
+    max-width: 600px;
+    background-color: #000;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 6px;
+    margin-top: 20px;
+
+    h3 {
+        color: #ffb800;
+        padding-right: 30px;
+        margin-bottom: 20px;
+    }
+
+    div {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+
+        svg {
+            font-size: 14px;
+            color: #FFF;
+
+        }
+
+        time {
+            color: #FFF;
+            font-size: 12px;
+            margin-left: 10px;
+            font-style: italic;
+        }
+    }
+
+    .vipBadge {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        color: #ffb800;
+        font-size: 20px;
+    }
+}
