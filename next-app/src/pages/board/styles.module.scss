@@ -20,13 +20,13 @@
 
 .container {
     width: 80%;
-    max-width: 600px;
+    max-width: 700px;
     background-color: #000;
     margin: 0 auto;
     padding: 20px;
     padding-top: 40px;
-    border-radius: 6px;
-    margin-top: 60px;
+    border-radius: 10px;
+    margin-top: 20px;
 
     form {
         display: flex;
@@ -70,6 +70,7 @@
         background-color: #111;
         border: 1px solid #222;
         border-radius: 6px;
+        margin-bottom: 10px;
 
         p {
             color: #FFF;
@@ -200,12 +201,13 @@
 .vipContainer {
     position: relative;
     width: 80%;
-    max-width: 600px;
+    max-width: 700px;
     background-color: #000;
     margin: 0 auto;
     padding: 20px;
-    border-radius: 6px;
+    border-radius: 10px;
     margin-top: 20px;
+    margin-bottom: 40px;
 
     h3 {
         color: #ffb800;

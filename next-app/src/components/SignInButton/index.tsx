@@ -7,19 +7,18 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 
 export default function SignInButton() {
 
-    const {data: session, status} = useSession();
-
-    console.log(session)
+    const { data: session, status } = useSession();
 
     return session ? (
         <button
             type='button'
             className={styles.signInButton}
-            onClick={() => signOut()}
         >
-            <img  src={session.user.image} alt='Avatar img'/>
+            <img src={session.user.image} alt='Avatar img' />
             <span className={styles.nome}>Olá, {session.user?.name.split(' ')[0]}!</span>
-            <FiLogOut className={styles.closeIcon} />
+            <FiLogOut
+                onClick={() => signOut()}
+                className={styles.closeIcon} />
         </button>
 
     ) : (

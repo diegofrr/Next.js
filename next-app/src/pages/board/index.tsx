@@ -1,10 +1,71 @@
+import { useState, FormEvent } from 'react'
 import styles from './styles.module.scss';
 import Head from 'next/head';
 import { FiPlus, FiCalendar, FiEdit2, FiTrash, FiClock, FiStar } from 'react-icons/fi'
 import { getSession } from 'next-auth/react';
 import { GetServerSideProps } from 'next';
+import firebase from '../../services/firebaseConnection';
+import Link from 'next/link';
 
-export default function Board() {
+import { format } from 'date-fns';
+
+type TaskList = {
+    id: string,
+    created: string | Date,
+    createdFormated?: string,
+    tarefa: string,
+    userId: string,
+    userName: string,
+}
+
+interface BoardProps {
+    user: {
+        id: string,
+        nome: string,
+    }
+
+    data: string
+}
+
+export default function Board({ user, data }: BoardProps) {
+
+    const [input, setInput] = useState('');
+    const [taskList, setTaskList] = useState<TaskList[]>(JSON.parse(data));
+
+    async function handleAddTask(e: FormEvent) {
+        e.preventDefault();
+
+        if (input === '') {
+            alert('Preencha o campo.')
+            return;
+        }
+
+        await firebase.firestore().collection('tasks')
+            .add({
+                created: new Date(),
+                tarefa: input,
+                userId: user.id,
+                userName: user.nome,
+            })
+            .then(doc => {
+                console.log('Cadastrado com sucesso')
+                let data = {
+                    id: doc.id,
+                    created: new Date(),
+                    createdFormated: format(new Date(), 'dd MMMM yyyy'),
+                    tarefa: input,
+                    userId: user.id,
+                    userName: user.nome,
+                }
+
+                setTaskList([...taskList, data]);
+                setInput('');
+            })
+
+            .catch((e) => {
+                console.log(e.code);
+            })
+    }
 
     return (
         <>
@@ -12,9 +73,14 @@ export default function Board() {
                 <title>Minhas tarefas • Board</title>
             </Head>
             <main className={styles.container}>
-                <form>
+                <form onSubmit={handleAddTask}>
                     <div className={styles.inputContainer}>
-                        <input placeholder=' ' type="text" id='tarefa' />
+                        <input
+                            onChange={e => setInput(e.target.value)}
+                            value={input}
+                            placeholder=' '
+                            type="text"
+                            id='tarefa' />
                         <label htmlFor='tarefa'>
                             Sua tarefa
                         </label>
@@ -24,28 +90,41 @@ export default function Board() {
                     </button>
                 </form>
 
-                <h1>Você tem 2 tarefas</h1>
+                <h1>
+                    {taskList.length === 0 ? 'Você não possui tarefas'
+                    : 
+                    taskList.length === 1 
+                    ? `Você tem ${taskList.length} tarefa`
+                    : `Você tem ${taskList.length} tarefas`
+                    }
+                </h1>
 
-                <article className={styles.taskList}>
-                    <p>Estudar React Native e Next JS</p>
-                    <div className={styles.actions}>
-                        <div>
-                            <div>
-                                <FiCalendar size={16} color='#ffb800' />
-                                <time>25 Julho de 2022</time>
+                <section>
+                    {taskList.map(task => (
+                        <article key={task.id} className={styles.taskList}>
+                            <Link href={`/board/${task.id}`}>
+                                <p>{task.tarefa}</p>
+                            </Link>
+                            <div className={styles.actions}>
+                                <div>
+                                    <div>
+                                        <FiCalendar size={16} color='#ffb800' />
+                                        <time>{task.createdFormated}</time>
+                                    </div>
+                                    <button className={styles.editarBtn}>
+                                        <FiEdit2 />
+                                        <span>Editar</span>
+                                    </button>
+                                </div>
+
+                                <button className={styles.excluirBtn}>
+                                    <FiTrash />
+                                    <span>Excluir</span>
+                                </button>
                             </div>
-                            <button className={styles.editarBtn}>
-                                <FiEdit2 />
-                                <span>Editar</span>
-                            </button>
-                        </div>
-
-                        <button className={styles.excluirBtn}>
-                            <FiTrash />
-                            <span>Excluir</span>
-                        </button>
-                    </div>
-                </article>
+                        </article>
+                    ))}
+                </section>
             </main>
 
             <div className={styles.vipContainer}>
@@ -63,9 +142,9 @@ export default function Board() {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const session = await getSession(context);
-  
-    if(!session) {
-        return{
+
+    if (!session) {
+        return {
             redirect: {
                 destination: '/',
                 permanent: false
@@ -73,11 +152,29 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         }
     }
 
-    console.log(session)
-  
-    return {
-      props: {
-  
-      }
+    const tasks = await firebase.firestore().collection('tasks')
+    .where('userId', '==', session?.id)
+    .orderBy('created', 'asc').get();
+
+    const data = JSON.stringify(
+        tasks.docs.map(u => {
+            return {
+                id: u.id,
+                createdFormated: format(u.data().created.toDate(), 'dd MMMM yyyy'),
+                ...u.data(),
+            }
+        })
+    )
+
+    const user = {
+        nome: session?.user.name,
+        id: session?.id,
     }
-  }
+
+    return {
+        props: {
+            user,
+            data
+        }
+    }
+}

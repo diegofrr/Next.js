@@ -1,9 +1,13 @@
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 import { getSession } from 'next-auth/react';
 import Head from 'next/head';
 import styles from '../styles/styles.module.scss';
 
+import firebase from '../services/firebaseConnection';
+import { useEffect } from 'react';
+
 export default function Home() {
+
   return (
     <>
       <Head>
@@ -51,5 +55,18 @@ export default function Home() {
   )
 }
 
+export const getStaticProps: GetStaticProps = async () => {
 
 
+
+  return {
+    props: {
+
+    },
+    revalidate: 60 * 60
+  }
+}
+
+function e(e: any) {
+  throw new Error('Function not implemented.');
+}
