@@ -13,7 +13,7 @@ export default function Header() {
     return (
         <header className={styles.headerContainer}>
             <div className={styles.headerContent}>
-                <a href="" className={styles.logo}>
+                <a href="/" className={styles.logo}>
                     <Image src={logo} alt='Logo da aplicação' />
                 </a>
                 <nav>

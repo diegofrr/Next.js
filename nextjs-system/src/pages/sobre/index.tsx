@@ -34,15 +34,15 @@ export default function Sobre({ content }: ContentProps) {
                         <p>{content.description}</p>
 
 
-                        <a target="_blank" href={content.instagram}>
+                        <a rel="noreferrer" target="_blank" href={content.instagram}>
                             <FaInstagram size={30} />
                         </a>
 
-                        <a target="_blank" href={content.linkedin}>
+                        <a rel="noreferrer" target="_blank" href={content.linkedin}>
                             <FaLinkedin size={30} />
                         </a>
 
-                        <a target="_blank" href={content.github}>
+                        <a rel="noreferrer" target="_blank" href={content.github}>
                             <FaGithub size={30} />
                         </a>
                     </section>
