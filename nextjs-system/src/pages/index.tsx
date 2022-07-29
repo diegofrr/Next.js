@@ -112,8 +112,6 @@ export const getStaticProps: GetStaticProps = async ({ previewData }) => {
     webBanner
   } = page.data
 
-  console.log(page.data)
-
   const content = {
     title: RichText.asText(title),
     subTitle: RichText.asText(subtitle),

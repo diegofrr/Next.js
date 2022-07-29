@@ -25,6 +25,23 @@
           "blocks": 1
         }
       }
+    },
+    "post": {
+      "postTitle": {
+        "config": {
+          "patternType": "HEADING",
+          "blocks": 1
+        }
+      },
+      "postDescription": {
+        "config": {
+          "patternType": "STORY",
+          "blocks": 1
+        }
+      }
     }
+  },
+  "slices": {
+    "MySlice": {}
   }
 }
